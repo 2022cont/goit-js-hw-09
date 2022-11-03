@@ -5,30 +5,29 @@ import Notiflix from 'notiflix';
 let getEl = selector => document.querySelector(selector);
 const inputText = getEl('input[type = "text"]');
 
-
 const timer = {
-
+  timerId: null,
   startTimer() {
     const startTime = calendar.selectedDates[0];
 
-   let timerId = setInterval(() => {
+    this.timerId = setInterval(() => {
       const currentTime = Date.now();
       const deltaTime = startTime - currentTime;
-      const { days, hours, minutes, seconds } = convertMs(deltaTime);
+      const convertDate = convertMs(deltaTime);
 
-      getEl('[data-days]').textContent = days;
-      getEl('[data-hours]').textContent = hours;
-      getEl('[data-minutes]').textContent = minutes;
-      getEl('[data-seconds]').textContent = seconds;
+      if ((parseInt(convertDate.seconds) <= 0) && (parseInt(convertDate.minutes) <= 0)
+        && (parseInt(convertDate.hours) <= 0) && (parseInt(convertDate.days) <= 0)) {
+        clearInterval(this.timerId);
+      };
 
-      if ({ days, hours, minutes, seconds } <= 0) {
-        clearInterval(timerId);
-      }
+      getEl('[data-days]').textContent = convertDate.days;
+      getEl('[data-hours]').textContent = convertDate.hours;
+      getEl('[data-minutes]').textContent = convertDate.minutes;
+      getEl('[data-seconds]').textContent = convertDate.seconds;
 
     }, 1000)
 
-  },
-
+  }
 
 };
 
