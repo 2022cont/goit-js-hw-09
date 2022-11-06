@@ -23,46 +23,21 @@ let amountId
 
 btnSubmit.addEventListener('click', (event) => {
   event.preventDefault();
-  let amount = inputAmount.value;
-  let delay = inputDelay.value;
-  let step = inputStep.value;
-  let index = 1;
+  let amount = parseInt(inputAmount.value);
+  let delay = parseInt(inputDelay.value);
+  let step = parseInt(inputStep.value);
 
-  if (parseInt(step) === 0) {
+  for (let index = 1; index <= amount; index++) {
 
-    for (let index = 1; index <= amount; index++) {
-      setTimeout(() => {
-       createPromise(index, delay)
-          .then(({ position, delay }) => {
-            Notiflix.Notify.info(`✅ Fulfilled promise ${position} in ${delay}ms`);
-          })
-          .catch(({ position, delay }) => {
-            Notiflix.Notify.info(`❌ Rejected promise ${position} in ${delay}ms`);
-          });
-      }, delay);
+    createPromise(index, delay)
+      .then(({ position, delay }) => {
+        Notiflix.Notify.info(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      })
+      .catch(({ position, delay }) => {
+        Notiflix.Notify.info(`❌ Rejected promise ${position} in ${delay}ms`);
+      });
 
-    }
-
-  } else {
-
-    amountId = setInterval(() => {
-
-      if (index <= amount) {
-
-        createPromise(index, delay)
-          .then(({ position, delay }) => {
-            Notiflix.Notify.info(`✅ Fulfilled promise ${position} in ${delay}ms`);
-          })
-          .catch(({ position, delay }) => {
-            Notiflix.Notify.info(`❌ Rejected promise ${position} in ${delay}ms`);
-          });
-
-        index++;
-        delay = parseInt(delay) + parseInt(step);
-      } else {
-        clearInterval(amountId)
-      }
-    }, delay);
+    delay = +step;
   }
 });
 
