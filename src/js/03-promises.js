@@ -37,7 +37,7 @@ btnSubmit.addEventListener('click', (event) => {
         Notiflix.Notify.info(`❌ Rejected promise ${position} in ${delay}ms`);
       });
 
-    delay = +step;
+    delay += step;
   }
 });
 
